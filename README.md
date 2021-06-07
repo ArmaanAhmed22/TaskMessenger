@@ -1,6 +1,9 @@
-# CompleteMessage
+# TaskMessenger
 
 ### Tool to send a designated email after task is finished
+
+## How to Use:
+TODO
 
 example:
 ```python
