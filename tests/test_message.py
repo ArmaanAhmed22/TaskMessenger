@@ -1,7 +1,8 @@
 from taskmessenger.send import CompleteMessage,EmailData
+import getpass
 
 c = CompleteMessage("user@example.com") #Use specified email with the default optional arguments
-p = input() #Unsafely get password
+p = getpass.getpass() #Get password
 c.set_passwd(p) #Set the one-time password 
 
 @c.send_function_specific_email #Send email message based on the second element of the tuple
