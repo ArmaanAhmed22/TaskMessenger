@@ -1,0 +1,26 @@
+import setuptools
+
+with open("README.md", "r", encoding="utf-8") as fh:
+    long_description = fh.read()
+
+setuptools.setup(
+    name="complete_message",
+    version="0.0.1",
+    author="Armaan Ahmed",
+    author_email="aahmedresearch@gmail.com",
+    description="Write emails after finishing a task",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
+    url="https://github.com/ArmaanAhmed22/CompleteMessage",
+    project_urls={
+        "Bug Tracker": "https://github.com/ArmaanAhmed22/CompleteMessage/issues",
+    },
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+    ],
+    package_dir={"": "src"},
+    packages=setuptools.find_packages(where="src"),
+    python_requires=">=3.6",
+)
