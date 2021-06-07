@@ -29,6 +29,8 @@ class CompleteMessage:
 	def send_email_after(self,subject,message):
 		def decorator(func):
 			def wrapper(*args,**kwargs):
+				if not hasattr(self,"passwd"):
+					raise Exception("Password is not set!")
 				res = func(*args,**kwargs)
 				self._send_email(subject,message)
 				return res

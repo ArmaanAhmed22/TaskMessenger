@@ -4,16 +4,16 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="complete_message",
+    name="taskmessenger",
     version="0.0.1",
     author="Armaan Ahmed",
     author_email="aahmedresearch@gmail.com",
     description="Write emails after finishing a task",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/ArmaanAhmed22/CompleteMessage",
+    url="https://github.com/ArmaanAhmed22/TaskMessenger",
     project_urls={
-        "Bug Tracker": "https://github.com/ArmaanAhmed22/CompleteMessage/issues",
+        "Bug Tracker": "https://github.com/ArmaanAhmed22/TaskMessenger/issues",
     },
     classifiers=[
         "Programming Language :: Python :: 3",

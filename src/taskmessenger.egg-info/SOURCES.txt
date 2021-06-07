@@ -1,0 +1,8 @@
+LICENSE
+README.md
+pyproject.toml
+setup.py
+src/taskmessenger.egg-info/PKG-INFO
+src/taskmessenger.egg-info/SOURCES.txt
+src/taskmessenger.egg-info/dependency_links.txt
+src/taskmessenger.egg-info/top_level.txt

@@ -1,8 +1,0 @@
-LICENSE
-README.md
-pyproject.toml
-setup.py
-src/complete_message.egg-info/PKG-INFO
-src/complete_message.egg-info/SOURCES.txt
-src/complete_message.egg-info/dependency_links.txt
-src/complete_message.egg-info/top_level.txt
