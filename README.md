@@ -1,6 +1,8 @@
 # CompleteMessage
 
-Tool to send a designated email after task is finished
+### Tool to send a designated email after task is finished
+
+example:
 
     from taskmessenger.send import CompleteMessage,EmailData
     import getpass
