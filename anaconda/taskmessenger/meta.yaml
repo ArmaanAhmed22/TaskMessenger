@@ -1,0 +1,38 @@
+{% set name = "taskmessenger" %}
+{% set version = "0.0.1rc0" %}
+
+package:
+  name: "{{ name|lower }}"
+  version: "{{ version }}"
+
+source:
+  url: "https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz"
+  sha256: ee2d4c840e7f0e7653f56912e8fca115eaadff4f498de5469c176ae14764776a
+
+build:
+  number: 0
+  script: "{{ PYTHON }} -m pip install . -vv"
+
+requirements:
+  host:
+    - pip
+    - python
+  run:
+    - python
+
+test:
+  imports:
+    - taskmessenger
+
+about:
+  home: "https://github.com/ArmaanAhmed22/TaskMessenger"
+  license: MIT
+  license_family: MIT
+  license_file: 
+  summary: "Write emails after finishing a task"
+  doc_url: 
+  dev_url: 
+
+extra:
+  recipe-maintainers:
+    - your-github-id-here
