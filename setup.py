@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="taskmessenger",
-    version="0.0.1",
+    version="0.0.1-pre",
     author="Armaan Ahmed",
     author_email="aahmedresearch@gmail.com",
     description="Write emails after finishing a task",
