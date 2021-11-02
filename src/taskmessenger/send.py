@@ -1,73 +1,76 @@
-import smtplib, ssl
+from typing import Any, Callable, Dict
+import requests
 
-from email.message import EmailMessage
-import mimetypes
 
 class EmailData:
-	def __init__(self,subject,body,attachments=None):
-		self.subject = subject
-		self.body = body
-		self.attachments = attachments
-	def attachments_to(self,email):
-		if self.attachments is not None:
-			for attachment in self.attachments:
-				guess = mimetypes.guess_type(attachment)
-				if guess[0] is None:
-					raise Exception()
-				main_type,sub_type = guess[0].split("/")
-				with open(attachment, "rb") as f:
+    """Contains the email data to send a complete message"""
+    def __init__(self, subject: str, body: str):
+        """Constructor for EmailData
 
-					email.add_attachment(f.read(),maintype=main_type,subtype=sub_type,filename=attachment.split("/")[-1])
+        Args:
+            subject (str): What should appear in the subject of the email
+            body (str): Allows for HTML markup of what should appear in the body
+        """
+        self.subject = subject
+        self.body = body.replace("\n", "<br>")
+
+    def attachments_to(self, email):
+        pass
+
 
 class CompleteMessage:
-	def __init__(self,email_addr,smtp_server="gmail.com",sending_warning_mode = True):
-		self.email_addr = email_addr
-		self.smtp_server = smtp_server
-		self.sending_warning_mode = sending_warning_mode
 
-	def set_password(self,password):
-		self.password = password
+    _form_url: str = "https://docs.google.com/forms/d/e/1FAIpQLScVaOeD69Y7SQUaOPuAtHfuEAhNB_3C-jaF_i3LuIxAUaArUQ/formResponse"
+    _form_post_names: Dict[str, str] = {
+        "email": "entry.1686550249",
+        "subject": "entry.159044383",
+        "body": "entry.1804805684"
+    }
 
-	def _send_email(self,email_data,attachments=None):
-		try:
-			msg = EmailMessage()
-			msg["Subject"] = email_data.subject
-			msg["From"] = self.email_addr
-			msg["To"] = self.email_addr
-			msg.set_content(email_data.body)
-			email_data.attachments_to(msg)
+    def __init__(self, email_addr: str, sending_warning_mode: bool = True):
+        """Constructor for CompleteMessage
 
+        Args:
+            email_addr (str): The email address to send the message to
+            sending_warning_mode (bool, optional): Whether to send a warning (True) or raise an exception (False) if POST fails to send message. Defaults to True.
+        """
+        self.email_addr: str = email_addr
+        self.sending_warning_mode: bool = sending_warning_mode
 
-			context = ssl.create_default_context()
+    def _send_email(self, email_data: EmailData):
+        data: Dict[str, str] = {
+            CompleteMessage._form_post_names["email"]: self.email_addr,
+            CompleteMessage._form_post_names["subject"]: email_data.subject,
+            CompleteMessage._form_post_names["body"]: email_data.body
+        }
+        res = requests.post(CompleteMessage._form_url, data=data)
+        if (res.status_code != 200):
+            raise Exception("Couldn't POST email")
 
-			with smtplib.SMTP_SSL("smtp."+self.smtp_server,465,context=context) as server:
-				#server.starttls(context=context)
-				server.login(self.email_addr,self.password)
-				server.sendmail(self.email_addr,[self.email_addr],msg.as_string())
-		except Exception:
-			if self.sending_warning_mode:
-				print("WARNING: Could not send email")
-			else:
-				Exception("Could not send email")
-		del self.password
+    def send_email_after(self, email_data: EmailData):
+        """Decorator to send message upon completion of function
 
-	def send_email_after(self,email_data):
-		def decorator(func):
-			def wrapper(*args,**kwargs):
-				if not hasattr(self,"password"):
-					raise Exception("Password is not set!")
-				res = func(*args,**kwargs)
-				self._send_email(email_data)
-				return res
-			return wrapper
-		return decorator
+        Args:
+            email_data (EmailData): The email to send
+        """
+        def decorator(func):
+            def wrapper(*args, **kwargs):
+                res = func(*args, **kwargs)
+                self._send_email(email_data)
+                return res
+            return wrapper
+        return decorator
 
-	def send_function_specific_email(self,func):
-		def wrapper(*args,**kwargs):
-			if not hasattr(self,"password"):
-				raise Exception("Password is not set!")
-			res = func(*args,**kwargs)
-			self._send_email(res[1])
-			return res[0]
-		return wrapper
+    def send_function_specific_email(self, output_to_email: Callable[[Any], EmailData]):
+        """Decorator to send message upon completion of function (depending on specific value of function)
 
+        Args:
+            output_to_email (Callable[[Any], EmailData]): turns the output of the function to the EmailData
+        """
+        def decorator(func):
+            def wrapper(*args, **kwargs):
+                res = func(*args, **kwargs)
+                self._send_email(output_to_email(res))
+                return res
+            return wrapper
+        return decorator
