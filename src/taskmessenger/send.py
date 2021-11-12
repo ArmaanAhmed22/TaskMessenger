@@ -47,6 +47,9 @@ class CompleteMessage:
         if (res.status_code != 200):
             raise Exception("Couldn't POST email")
 
+    def send(self, email_data: EmailData):
+        self._send_email(email_data)
+
     def send_email_after(self, email_data: EmailData):
         """Decorator to send message upon completion of function
 

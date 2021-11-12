@@ -10,10 +10,11 @@ Waiting for the termination of a long task can be tedious and unpractical. Inste
 * Python >=3.6
 
 ## Installation
-`pip install taskmessenger`
+From PyPi: `pip install taskmessenger`
+From GitHub (newest version): `git clone https://www.github.com/ArmaanAhmed22/taskmessenger & cd TaskMessenger & pip install -e .`
 
 ## Example:
-Sending a message within the function:
+Sending a message using data from the function:
 ```python
 from taskmessenger.send import CompleteMessage,EmailData
 
@@ -37,4 +38,11 @@ def func():
 	print("Doing something...")
 
 func()
+```
+Sending a message inline (without a function):
+```python
+from taskmessenger.send import CompleteMessage,EmailData
+
+c = CompleteMessage("user@example.com")
+c.send(EmailData("SUBJECT","BODY"))
 ```

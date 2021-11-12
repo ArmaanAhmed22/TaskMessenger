@@ -2,4 +2,6 @@
 **/.DS_Store
 .tox/
 src/taskmessenger.egg-info/
+.coverage
+dist/*
 
