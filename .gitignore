@@ -4,4 +4,7 @@
 src/taskmessenger.egg-info/
 .coverage
 dist/*
-
+anaconda/*
+.gitignore
+html/
+.gitignore.swp*
