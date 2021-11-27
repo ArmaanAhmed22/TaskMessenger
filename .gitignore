@@ -8,3 +8,5 @@ anaconda/*
 .gitignore
 html/
 .gitignore.swp*
+**/_secrets.*
+**/secrets.*
