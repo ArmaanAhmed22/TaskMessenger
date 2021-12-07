@@ -3,8 +3,12 @@ import requests
 from os.path import basename
 from taskmessenger._server_location import location
 
-
 def get_server_location() -> Tuple[str, str]:
+    """Gets the server data
+
+    Returns:
+        Tuple[str, str]: A tuple of (address, port)
+    """
     loc: str = location["LOCATION"]
     port: str = location["PORT"]
     return loc, port
@@ -54,6 +58,11 @@ class CompleteMessage:
         return res.status_code
 
     def send(self, email_data: EmailData):
+        """Send email
+
+        Args:
+            email_data (EmailData): The email to send
+        """
         self._send_email(email_data)
 
     def send_email_after(self, email_data: EmailData):
